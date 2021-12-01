@@ -57,7 +57,11 @@ public class Fuzz {
 				// thrown with corrupt files
 				RuntimeException e) {
 			// expected here
+		} catch (Error e) {
+			// only allow "Error" directly, none of the derived classes
+			if (!e.getClass().getSimpleName().equals("Error")) {
+				throw e;
+			}
 		}
-
 	}
 }
