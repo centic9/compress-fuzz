@@ -28,7 +28,10 @@ public class Fuzz {
 					break;
 				}
 			}
-		} catch (ArchiveException | IOException e) {
+		} catch (ArchiveException | IOException |
+				// many different runtime-exceptions are
+				// thrown with corrupt files
+				RuntimeException e) {
 			// expected here
 		}
 	}
