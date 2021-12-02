@@ -1,4 +1,4 @@
-This is a small project for fuzzing Apache Commons CLI with the [jazzer](https://github.com/CodeIntelligenceTesting/jazzer) fuzzing tool.
+This is a small project for fuzzing [Apache Commons Compress](https://commons.apache.org/proper/commons-compress/) with the [jazzer](https://github.com/CodeIntelligenceTesting/jazzer) fuzzing tool.
 
 See [Fuzzing](https://en.wikipedia.org/wiki/Fuzzing) for a general description of the theory behind fuzzy testing.
 
@@ -8,15 +8,24 @@ focuses on the following:
 
 * verify if only expected exceptions are thrown
 * verify any JNI or native code calls 
+* find cases of unbounded memory allocations
 
-Apache Commons CLI does not use JNI or native code, therefore the fuzzing target mainly
-tries to trigger unexpected exceptions.
+Apache Commons Compress does not use JNI or native code, therefore the fuzzing target mainly
+tries to trigger unexpected exceptions and unbounded memory allocations.
 
 # How to fuzz
 
 Build the fuzzing target:
 
     ./gradlew shadowJar
+
+Copy over the corpus of test-files from Apache Commons Compress sources
+
+    cp -a /opt/commons-compress/test/src/resources corpus/
+
+You can add documents from other testing-corpora as well. Valid documents
+as well as slightly broken ones are good sources as this helps the fuzzer 
+to come up with interesting new cases. 
 
 Download Jazzer from the [releases page](https://github.com/CodeIntelligenceTesting/jazzer/releases), 
 choose the latest version and select the file `jazzer-<os>-<version>.tar.gz`
