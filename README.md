@@ -10,8 +10,9 @@ focuses on the following:
 * verify any JNI or native code calls 
 * find cases of unbounded memory allocations
 
-Apache Commons Compress does not use JNI or native code, therefore the fuzzing target mainly
-tries to trigger unexpected exceptions and unbounded memory allocations.
+Apache Commons Compress uses JNI for at least ZStd, so the fuzzing target
+tries to trigger this and also any other unexpected exceptions and 
+unbounded memory allocations.
 
 # How to fuzz
 
