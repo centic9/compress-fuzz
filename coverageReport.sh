@@ -18,7 +18,7 @@ set -eu
 ./gradlew check
 
 
-# extract class-files of Apache POi
+# extract jar-files of Apache Commons Compress
 mkdir -p build/compressfiles
 cd build/compressfiles
 for i in `find /opt/apache/commons-compress/dist/binaries/ -name *.zip`; do
@@ -26,12 +26,15 @@ for i in `find /opt/apache/commons-compress/dist/binaries/ -name *.zip`; do
   unzip -o -q $i
 done
 
+# then unpack the class-files
+for i in `find . -name *.jar | grep -v -- -javadoc.jar | grep -v -- -sources.jar | grep -v -- -tests.jar`; do
+  echo $i
+  unzip -o -q $i
+done
 
-# Remove some packages that we do not want to include in the Report
-#rm -r com
-#rm -r org/openxmlformats
-#rm -r org/etsi
-#rm -r org/w3
+
+# Remove some intermediate files
+rm -r commons-compress-*
 
 cd -
 
