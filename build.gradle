@@ -3,6 +3,7 @@ plugins {
 }
 
 apply plugin: 'java'
+apply plugin: 'jacoco'
 
 repositories {
 	mavenCentral()
@@ -15,14 +16,31 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-core:2.14.1'
 	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.14.1'
 
+	testImplementation 'commons-io:commons-io:2.11.0'
+
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
 test {
 	useJUnitPlatform()
+
+	jacoco {
+		includes = [
+				//'org/apache/commons/**/*.class',
+		]
+		excludes = [
+				'jdk/**',
+		]
+		includeNoLocationClasses = true
+	}
 }
 
 wrapper {
 	gradleVersion = '6.6.1'
+}
+
+jacoco {
+	toolVersion = '0.8.7'
 }
