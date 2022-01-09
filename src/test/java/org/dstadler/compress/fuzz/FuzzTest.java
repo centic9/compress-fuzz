@@ -44,7 +44,7 @@ class FuzzTest {
 
 	@Disabled("Local test for verifying a slow run")
 	@Test
-	public void testSlowUnit() {
-		//Fuzz.fuzzerTestOneInput(FileUtils.readFileToByteArray(new File("slow-unit-0a0b0ce97bb332cd9f8fde03e03840768a81d29d")));
+	public void testSlowUnit() throws IOException {
+		Fuzz.fuzzerTestOneInput(FileUtils.readFileToByteArray(new File("corpus/3035833feec28f5b4bc0ef33c5a7b9b348efe260")));
 	}
 }

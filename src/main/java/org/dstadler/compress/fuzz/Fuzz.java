@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.Collection;
+import java.util.Set;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveException;
@@ -16,6 +17,7 @@ import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.ar.ArArchiveOutputStream;
 import org.apache.commons.compress.archivers.cpio.CpioArchiveOutputStream;
+import org.apache.commons.compress.archivers.jar.JarArchiveOutputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.compressors.CompressorException;
@@ -33,6 +35,7 @@ import org.apache.commons.compress.compressors.snappy.FramedSnappyCompressorOutp
 import org.apache.commons.compress.compressors.snappy.SnappyCompressorOutputStream;
 import org.apache.commons.compress.compressors.xz.XZCompressorOutputStream;
 import org.apache.commons.compress.compressors.zstandard.ZstdCompressorOutputStream;
+import org.apache.commons.compress.utils.ArchiveUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -71,6 +74,9 @@ public class Fuzz {
 					if (entry == null) {
 						break;
 					}
+
+					ArchiveUtils.toString(entry);
+
 					if (!input.canReadEntryData(entry)) {
 						continue;
 					}
@@ -117,12 +123,36 @@ public class Fuzz {
 		}
 	}
 
+	private static final Set<String> UNDETECTED = Set.of(
+			CompressorStreamFactory.BROTLI,
+			CompressorStreamFactory.SNAPPY_RAW,
+			CompressorStreamFactory.DEFLATE64,
+			CompressorStreamFactory.LZ4_BLOCK);
+
 	private static void checkCompressor(byte[] inputData) {
+		String name = null;
+		try {
+			name = CompressorStreamFactory.detect(new ByteArrayInputStream(inputData));
+		} catch (IllegalArgumentException | CompressorException e) {
+			// expected here if the type cannot be detected
+		}
+
+		if (name == null) {
+			// if we cannot detect the type, we iterate over the "undetectable" formats to also cover those
+			for (String type : UNDETECTED) {
+				runCheck(inputData, type);
+			}
+		} else {
+			runCheck(inputData, name);
+		}
+	}
+
+	private static void runCheck(byte[] inputData, String name) {
 		try {
 			CompressorInputStream input = new CompressorStreamFactory(false,
 					// enable safety feature which limits how much memory can be allocated
 					1024)
-					.createCompressorInputStream(new ByteArrayInputStream(inputData));
+					.createCompressorInputStream(name, new ByteArrayInputStream(inputData));
 
 			ByteArrayOutputStream bytesIn = new ByteArrayOutputStream();
 			// read the input stream
@@ -171,6 +201,7 @@ public class Fuzz {
 				new TarArchiveOutputStream(new ByteArrayOutputStream()),
 				new ArArchiveOutputStream(new ByteArrayOutputStream()),
 				new ZipArchiveOutputStream(new ByteArrayOutputStream()),
+				new JarArchiveOutputStream(new ByteArrayOutputStream()),
 		};
 	}
 
