@@ -42,6 +42,12 @@ class FuzzTest {
 		Fuzz.fuzzerTestOneInput(bytes);
 	}
 
+	@Test
+	public void testWithValidBrotliCompressedFile() throws IOException {
+		byte[] bytes = FileUtils.readFileToByteArray(new File("src/test/resources/brotli.testdata.compressed"));
+		Fuzz.fuzzerTestOneInput(bytes);
+	}
+
 	@Disabled("Local test for verifying a slow run")
 	@Test
 	public void testSlowUnit() throws IOException {
