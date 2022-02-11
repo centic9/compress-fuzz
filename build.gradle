@@ -3,7 +3,6 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'jacoco'
 
 repositories {
 	mavenCentral()
@@ -36,24 +35,10 @@ dependencies {
 
 test {
 	useJUnitPlatform()
-
-	jacoco {
-		includes = [
-				//'org/apache/commons/**/*.class',
-		]
-		excludes = [
-				'jdk/**',
-		]
-		includeNoLocationClasses = true
-	}
 }
 
 wrapper {
 	gradleVersion = '6.6.1'
-}
-
-jacoco {
-	toolVersion = '0.8.7'
 }
 
 task getDeps(type: Copy) {
