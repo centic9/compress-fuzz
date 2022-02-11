@@ -39,6 +39,7 @@ import org.apache.commons.compress.utils.ArchiveUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  * This class provides a simple target for fuzzing Apache Commons Compress with Jazzer.
@@ -188,10 +189,20 @@ public class Fuzz {
 				RuntimeException e) {
 			// expected here
 		} catch (Error e) {
-			// only allow "Error" directly, none of the derived classes
-			if (!e.getClass().getSimpleName().equals("Error")) {
-				throw e;
+
+			// allow "Error" directly as there are some cases where it is thrown
+			if (e.getClass().getSimpleName().equals("Error")) {
+				return;
 			}
+
+			// this is reported at https://issues.apache.org/jira/browse/COMPRESS-599
+			// so this can be removed as soon as this is fixed in commons-compress
+			if (e instanceof OutOfMemoryError &&
+					ExceptionUtils.getStackTrace(e).contains("unpack200")) {
+				return;
+			}
+
+			throw e;
 		}
 	}
 
