@@ -27,8 +27,8 @@ cd -
 
 # Fetch JaCoCo Agent
 test -f jacoco-0.8.7.zip || wget --continue https://repo1.maven.org/maven2/org/jacoco/jacoco/0.8.7/jacoco-0.8.7.zip
-unzip -o jacoco-0.8.7.zip lib/jacocoagent.jar
-mv lib/jacocoagent.jar build/
+unzip -o jacoco-0.8.7.zip lib/jacocoagent.jar lib/jacococli.jar
+mv lib/jacocoagent.jar lib/jacococli.jar build/
 rmdir lib
 
 mkdir -p build/jacoco
@@ -47,7 +47,7 @@ mkdir -p build/jacoco
 
 
 # Finally create the JaCoCo report
-java -jar /opt/poi/lib/util/jacococli.jar report build/jacoco/corpus.exec \
+java -jar build/jacococli.jar report build/jacoco/corpus.exec \
  --classfiles build/compressfiles \
  --sourcefiles /opt/apache/commons-compress/git/src/main/java/ \
  --html build/reports/jacoco
