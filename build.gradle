@@ -16,9 +16,10 @@ dependencies {
 	//noinspection GradlePackageUpdate
 	implementation 'com.github.luben:zstd-jni:1.5.0-4'
 	implementation 'org.brotli:dec:0.1.2'
+
+	// this needs to match what commons-compress is using
 	//noinspection GradlePackageUpdate
-	implementation 'asm:asm:3.2'
-	// newer commons-compress will use 'org.ow2.asm:asm:9.2'
+	implementation 'org.ow2.asm:asm:9.2'
 
 	// for configuring log4j to be silent during fuzzing
     implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
