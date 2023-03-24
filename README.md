@@ -1,6 +1,8 @@
-This is a small project for fuzzing [Apache Commons Compress](https://commons.apache.org/proper/commons-compress/) with the [jazzer](https://github.com/CodeIntelligenceTesting/jazzer) fuzzing tool.
+This is a small project for fuzzing [Apache Commons Compress](https://commons.apache.org/proper/commons-compress/) 
+with the [jazzer](https://github.com/CodeIntelligenceTesting/jazzer) fuzzing tool.
 
-See [Fuzzing](https://en.wikipedia.org/wiki/Fuzzing) for a general description of the theory behind fuzzy testing.
+See [Fuzzing](https://en.wikipedia.org/wiki/Fuzzing) for a general description 
+of the theory behind fuzzy testing.
 
 Because Java uses a runtime environment which does not crash on invalid actions of an 
 application (unless native code is invoked), Fuzzing of Java-based applications  
