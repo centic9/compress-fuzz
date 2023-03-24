@@ -9,17 +9,17 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.apache.commons:commons-compress:1.22'
+	implementation 'org.apache.commons:commons-compress:1.23.0'
 
 	// some additional dependencies for additional archivers/compressors
 	implementation 'org.tukaani:xz:1.9'
 	//noinspection GradlePackageUpdate
-	implementation 'com.github.luben:zstd-jni:1.5.0-4'
+	implementation 'com.github.luben:zstd-jni:1.5.4-2'
 	implementation 'org.brotli:dec:0.1.2'
 
 	// this needs to match what commons-compress is using
 	//noinspection GradlePackageUpdate
-	implementation 'org.ow2.asm:asm:9.2'
+	implementation 'org.ow2.asm:asm:9.4'
 
 	// for configuring log4j to be silent during fuzzing
     implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
