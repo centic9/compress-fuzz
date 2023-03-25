@@ -24,7 +24,7 @@ Build the fuzzing target:
 
 Copy over the corpus of test-files from Apache Commons Compress sources
 
-    cp -a /opt/commons-compress/test/src/resources corpus/
+    cp -a /opt/commons-compress/src/test/resources corpus/
 
 You can add documents from other testing-corpora as well. Valid documents
 as well as slightly broken ones are good sources as this helps the fuzzer 
