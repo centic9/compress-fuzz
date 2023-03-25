@@ -39,6 +39,7 @@ import org.apache.commons.compress.utils.ArchiveUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.io.output.NullOutputStream;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
@@ -164,7 +165,7 @@ public class Fuzz {
 					break;
 				}
 
-				// do not try to uncompress huge files to avoid OOMs here
+				// do not try to decompress huge files to avoid OOMs here
 				if (bytesIn.size() > MAX_UNCOMPRESSED_BYTES) {
 					// we could not fully uncompress the data, but let's still feed it into the archive and compressor
 					// to see what happens with cut-off data
@@ -208,27 +209,27 @@ public class Fuzz {
 
 	private static ArchiveOutputStream[] createArchivers() {
 		return new ArchiveOutputStream[] {
-				new CpioArchiveOutputStream(new ByteArrayOutputStream()),
-				new TarArchiveOutputStream(new ByteArrayOutputStream()),
-				new ArArchiveOutputStream(new ByteArrayOutputStream()),
-				new ZipArchiveOutputStream(new ByteArrayOutputStream()),
-				new JarArchiveOutputStream(new ByteArrayOutputStream()),
+				new CpioArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new TarArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new ArArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new ZipArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new JarArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
 		};
 	}
 
 	private static CompressorOutputStream[] createCompressors() throws IOException {
 		return new CompressorOutputStream[] {
-				new FramedSnappyCompressorOutputStream(new ByteArrayOutputStream()),
-				new Pack200CompressorOutputStream(new ByteArrayOutputStream()),
-				new BZip2CompressorOutputStream(new ByteArrayOutputStream()),
-				new FramedLZ4CompressorOutputStream(new ByteArrayOutputStream()),
-				new XZCompressorOutputStream(new ByteArrayOutputStream()),
-				new DeflateCompressorOutputStream(new ByteArrayOutputStream()),
-				new BlockLZ4CompressorOutputStream(new ByteArrayOutputStream()),
-				new GzipCompressorOutputStream(new ByteArrayOutputStream()),
-				new SnappyCompressorOutputStream(new ByteArrayOutputStream(), 1000),
-				new LZMACompressorOutputStream(new ByteArrayOutputStream()),
-				new ZstdCompressorOutputStream(new ByteArrayOutputStream()),
+				new FramedSnappyCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new Pack200CompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new BZip2CompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new FramedLZ4CompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new XZCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new DeflateCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new BlockLZ4CompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new GzipCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new SnappyCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM, 1000),
+				new LZMACompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new ZstdCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
 		};
 	}
 }
