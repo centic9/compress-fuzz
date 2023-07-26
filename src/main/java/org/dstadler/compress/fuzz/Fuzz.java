@@ -176,12 +176,13 @@ public class Fuzz {
 			}
 
 			// this might now be an archive, so let's run it through that as well
-			checkArchiver(bytesIn.toByteArray());
+			byte[] byteArray = bytesIn.toByteArray();
+			checkArchiver(byteArray);
 
 			// write out via all available compressors
 			for (CompressorOutputStream stream : createCompressors()) {
 				try (stream) {
-					stream.write(bytesIn.toByteArray());
+					stream.write(byteArray);
 				}
 			}
 		} catch (CompressorException | IOException |
