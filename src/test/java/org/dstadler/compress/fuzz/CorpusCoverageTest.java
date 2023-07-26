@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
@@ -30,11 +31,17 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class CorpusCoverageTest {
 	private static final Set<String> EXCLUDED = Set.of();
 
+	private static final long start = System.currentTimeMillis();
+	private static final AtomicInteger count = new AtomicInteger();
+
 	@Disabled("Can run a long time when there is a large corpus used for fuzzing")
 	@ParameterizedTest
 	@MethodSource("provideStringsForIsBlank")
 	void testCorpusFile(File file) throws IOException {
-		System.err.println("Running file " + file + " in thread " + Thread.currentThread().getName());
+		count.incrementAndGet();
+		System.err.println("Running file " + file + " in thread " + Thread.currentThread().getName() + ", avg. runtime: " +
+				(System.currentTimeMillis() - start)/count.get());
+
 		try {
 			Fuzz.fuzzerTestOneInput(FileUtils.readFileToByteArray(file));
 		} catch (RuntimeException | OutOfMemoryError | AssertionError | StackOverflowError e) {
