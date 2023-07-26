@@ -209,27 +209,27 @@ public class Fuzz {
 
 	private static ArchiveOutputStream[] createArchivers() {
 		return new ArchiveOutputStream[] {
-				new CpioArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new TarArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new ArArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new ZipArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new JarArchiveOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new CpioArchiveOutputStream(NullOutputStream.INSTANCE),
+				new TarArchiveOutputStream(NullOutputStream.INSTANCE),
+				new ArArchiveOutputStream(NullOutputStream.INSTANCE),
+				new ZipArchiveOutputStream(NullOutputStream.INSTANCE),
+				new JarArchiveOutputStream(NullOutputStream.INSTANCE),
 		};
 	}
 
 	private static CompressorOutputStream[] createCompressors() throws IOException {
 		return new CompressorOutputStream[] {
-				new FramedSnappyCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new Pack200CompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new BZip2CompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new FramedLZ4CompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new XZCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new DeflateCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new BlockLZ4CompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new GzipCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new SnappyCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM, 1000),
-				new LZMACompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
-				new ZstdCompressorOutputStream(NullOutputStream.NULL_OUTPUT_STREAM),
+				new FramedSnappyCompressorOutputStream(NullOutputStream.INSTANCE),
+				new Pack200CompressorOutputStream(NullOutputStream.INSTANCE),
+				new BZip2CompressorOutputStream(NullOutputStream.INSTANCE),
+				new FramedLZ4CompressorOutputStream(NullOutputStream.INSTANCE),
+				new XZCompressorOutputStream(NullOutputStream.INSTANCE),
+				new DeflateCompressorOutputStream(NullOutputStream.INSTANCE),
+				new BlockLZ4CompressorOutputStream(NullOutputStream.INSTANCE),
+				new GzipCompressorOutputStream(NullOutputStream.INSTANCE),
+				new SnappyCompressorOutputStream(NullOutputStream.INSTANCE, 1000),
+				new LZMACompressorOutputStream(NullOutputStream.INSTANCE),
+				new ZstdCompressorOutputStream(NullOutputStream.INSTANCE),
 		};
 	}
 }
