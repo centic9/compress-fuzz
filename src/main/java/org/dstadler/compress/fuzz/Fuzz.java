@@ -62,7 +62,7 @@ public class Fuzz {
 
 	private static void checkArchiver(byte[] inputData) {
 		try {
-			ArchiveInputStream input = new ArchiveStreamFactory()
+			ArchiveInputStream<?> input = new ArchiveStreamFactory()
 					.createArchiveInputStream(new ByteArrayInputStream(inputData));
 
 			// try to extract all the files in the archive into a temporary directory
@@ -101,11 +101,12 @@ public class Fuzz {
 
 				// try to put the extracted files into an archive again
 				Collection<File> filesToArchive = FileUtils.listFiles(tempDir, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
-				for (ArchiveOutputStream out : createArchivers()) {
+				for (ArchiveOutputStream<?> out : createArchivers()) {
 					try (out) {
 						for (File f : filesToArchive) {
 							ArchiveEntry entry = out.createArchiveEntry(f, f.getName());
-							out.putArchiveEntry(entry);
+							//noinspection unchecked
+							((ArchiveOutputStream<ArchiveEntry>)out).putArchiveEntry(entry);
 							try (InputStream i = Files.newInputStream(f.toPath())) {
 								IOUtils.copy(i, out);
 							}
@@ -208,8 +209,8 @@ public class Fuzz {
 		}
 	}
 
-	private static ArchiveOutputStream[] createArchivers() {
-		return new ArchiveOutputStream[] {
+	private static ArchiveOutputStream<?>[] createArchivers() {
+		return new ArchiveOutputStream<?>[] {
 				new CpioArchiveOutputStream(NullOutputStream.INSTANCE),
 				new TarArchiveOutputStream(NullOutputStream.INSTANCE),
 				new ArArchiveOutputStream(NullOutputStream.INSTANCE),
