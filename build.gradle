@@ -1,5 +1,5 @@
 plugins {
-	id 'com.github.johnrengelman.shadow' version '6.1.0'
+	id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 apply plugin: 'java'
@@ -26,7 +26,7 @@ dependencies {
 	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.22.0'
 
 	//noinspection GradlePackageUpdate
-	implementation 'commons-io:commons-io:2.15.0'
+	implementation 'commons-io:commons-io:2.15.1'
 	implementation 'org.apache.commons:commons-lang3:3.14.0'
 
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
@@ -39,7 +39,7 @@ test {
 }
 
 wrapper {
-	gradleVersion = '7.6.1'
+	gradleVersion = '8.5'
 }
 
 task getDeps(type: Copy) {
