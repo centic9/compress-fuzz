@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.apache.commons:commons-compress:1.26.0'
+	implementation 'org.apache.commons:commons-compress:1.26.1'
 	// the following should be automatically included,
 	// we should try again later to remove this again
 	implementation 'commons-codec:commons-codec:1.16.1'
