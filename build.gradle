@@ -25,8 +25,8 @@ dependencies {
 	implementation 'org.ow2.asm:asm:9.4'
 
 	// for configuring log4j to be silent during fuzzing
-    implementation 'org.apache.logging.log4j:log4j-core:2.24.3'
-	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.24.3'
+    implementation 'org.apache.logging.log4j:log4j-core:2.25.0'
+	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.25.0'
 
 	//noinspection GradlePackageUpdate
 	implementation 'commons-io:commons-io:2.19.0'
