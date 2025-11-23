@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
@@ -118,7 +117,7 @@ public class Fuzz {
 			} finally {
 				FileUtils.deleteDirectory(tempDir);
 			}
-		} catch (ArchiveException | IOException |
+		} catch (IOException |
 				// many runtime-exceptions are
 				// thrown with corrupt files
 				RuntimeException e) {
@@ -181,12 +180,12 @@ public class Fuzz {
 			checkArchiver(byteArray);
 
 			// write out via all available compressors
-			for (CompressorOutputStream stream : createCompressors()) {
+			for (CompressorOutputStream<?> stream : createCompressors()) {
 				try (stream) {
 					stream.write(byteArray);
 				}
 			}
-		} catch (CompressorException | IOException |
+		} catch (IOException |
 				// many runtime-exceptions are
 				// thrown with corrupt files
 				RuntimeException e) {
@@ -219,7 +218,7 @@ public class Fuzz {
 		};
 	}
 
-	private static CompressorOutputStream[] createCompressors() throws IOException {
+	private static CompressorOutputStream<?>[] createCompressors() throws IOException {
 		return new CompressorOutputStream[] {
 				new FramedSnappyCompressorOutputStream(NullOutputStream.INSTANCE),
 				new Pack200CompressorOutputStream(NullOutputStream.INSTANCE),
